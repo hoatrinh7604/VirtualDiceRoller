@@ -18,6 +18,7 @@ public class Controller : MonoBehaviour
     [SerializeField] GameObject[] listShape;
 
     [SerializeField] TMP_InputField amount;
+    [SerializeField] TextMeshProUGUI sum;
 
     [SerializeField] GameObject dicePrefab;
     [SerializeField] Transform dicePrefabParent;
@@ -130,13 +131,18 @@ public class Controller : MonoBehaviour
 
     private void CalWithAdult()
     {
+        sum.gameObject.SetActive(true);
         int am = int.Parse(amount.text);
-
+        long sumation = 0;
         for(int i = 0; i < am; i++)
         {
             GameObject dice = Instantiate(dicePrefab, Vector2.zero, Quaternion.identity, dicePrefabParent);
-            dice.GetComponent<Image>().sprite = listSprites[UnityEngine.Random.Range(0, listSprites.Length)];
+            int random = UnityEngine.Random.Range(0, listSprites.Length);
+            sumation += (random + 1);
+            dice.GetComponent<Image>().sprite = listSprites[random];
         }
+
+        sum.text = "Sum = " + sumation;
     }
 
     void SwitchToVolume()
@@ -173,7 +179,7 @@ public class Controller : MonoBehaviour
     public void Clear()
     {
         listFieldParent.SetActive(false);
-
+        sum.gameObject.SetActive(false);
         typeVolume.value = 0;
         amount.text = "";
 
